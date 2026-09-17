@@ -23,9 +23,10 @@
 ## 第二阶段：方法论与写作经验库
 
 - `paper_notes/`：逐篇可追溯的经验卡；当前全部等待基于原文的语义审阅。
-- `strategy/`：题型、方法、知识点、验证、写作和证据案例的索引框架。
+- [`strategy/`](strategy/README.md)：建模方法论、题型、验证、解释、写作、比赛流程和证据案例。
 - `metadata/semantic_index.csv`：与论文 manifest 一一对应的语义审阅队列。
 - `reports/semantic_summary_report.md`：第二阶段完成度与待确认项。
+- `reports/methodology_summary_review.md`：对 GPT 总结的合理性、修订边界与抽查证据。
 
 初始化或补齐缺失经验卡：
 

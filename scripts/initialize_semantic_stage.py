@@ -185,6 +185,10 @@ def scaffold_documents() -> dict[str, str]:
     for item in KNOWLEDGE:
         knowledge_sections.extend([f"## {item}", "", "- 相关论文与可复用知识点：待从已审阅经验卡建立链接。", ""])
     return {
+        "README.md": """# 方法论与写作经验库
+
+入口：[建模方法论](MODELING_PLAYBOOK.md) · [题型索引](PROBLEM_PATTERN_INDEX.md) · [验证指南](VALIDATION_GUIDE.md) · [写作指南](WRITING_GUIDE.md) · [证据案例](EVIDENCE_CASES.md)。
+""",
         "MODELING_PLAYBOOK.md": """# 建模方法论手册
 
 > 证据状态：通用审阅框架；尚未把任何未审阅论文结论列为证据。
@@ -269,6 +273,14 @@ def scaffold_documents() -> dict[str, str]:
 
 待添加经审阅案例。
 """,
+        "EXPLAINABILITY_GUIDE.md": """# 模型可解释性指南
+
+从结构、参数、机理与工具四层解释模型；工具解释不能替代机理审查，也不能自动支持因果结论。
+""",
+        "COMPETITION_WORKFLOW.md": """# 数学建模比赛工作流
+
+审题与任务契约 → 数据和机理勘察 → baseline → 针对缺陷改进 → 验证与压力测试 → 同步写作。
+""",
     }
 
 
@@ -328,7 +340,7 @@ def write_report(rows: list[dict[str, str]], semantic_rows: list[dict[str, str]]
         "# 第二阶段语义整理报告", "",
         f"- 论文总数：{len(rows)}", f"- 已完成语义审阅：{status.get('reviewed', 0)}",
         f"- 待 ChatGPT 审阅：{status.get('pending_chatgpt_review', 0)}", "- 已识别题型/算法/验证方式：0（本轮未进行语义猜测）",
-        "- 索引状态：经验卡、语义索引、方法/题型/知识点/验证/写作/证据模板已生成。", "",
+        "- 索引状态：经验卡、语义索引、方法/题型/知识点/验证/解释/写作/比赛流程/证据文档已生成。", "- 通用方法论已审阅整理；这不等于完成单篇论文语义审阅。", "",
         "## 年份与题号待审阅数", "", "| 年份 | A | B | C | D | E | F | 合计 |", "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for year in sorted({row["year"] for row in semantic_rows}):
