@@ -18,6 +18,7 @@ from urllib.parse import quote, unquote
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "metadata" / "papers_manifest.csv"
 NOTES = ROOT / "paper_notes"
+QUESTION_NOTES = ROOT / "question_notes"
 STRATEGY = ROOT / "strategy"
 SEMANTIC_INDEX = ROOT / "metadata" / "semantic_index.csv"
 REPORT = ROOT / "reports" / "semantic_summary_report.md"
@@ -26,7 +27,7 @@ SEMANTIC_FIELDS = [
     "q1_task", "q1_methods", "q2_task", "q2_methods", "q3_task", "q3_methods",
     "q4_task", "q4_methods", "algorithms", "knowledge_points", "validation_methods",
     "writing_features", "reusable_ideas", "applicable_patterns", "source_md", "source_pdf",
-    "review_status", "review_notes",
+    "review_status", "review_notes", "semantic_status", "semantic_source", "last_reviewed",
 ]
 PATTERNS = [
     "预测", "分类", "回归", "聚类", "综合评价", "优化决策", "调度", "路径规划",
@@ -38,6 +39,10 @@ KNOWLEDGE = [
     "动力学", "控制理论", "信号处理", "机器学习", "深度学习", "迁移学习", "空间统计", "GIS",
     "多源融合", "不确定性分析", "鲁棒优化", "多目标优化", "评价体系",
 ]
+QUESTION_NOTES_README = """# 赛题级横向比较卡
+
+本目录用于同一年、同一题下多篇优秀论文的横向比较。只有经过论文正文核对的内容才能写入；单篇案例不能冒充多篇统计，所有判断应链接到 source_md。
+"""
 
 
 def relative_link(from_dir: Path, target: str) -> str:
@@ -295,9 +300,21 @@ def write_semantic_index(rows: list[dict[str, str]], existing: dict[str, dict[st
         })
         if not item["review_status"]:
             item["review_status"] = "pending_chatgpt_review"
+        if not item["semantic_status"]:
+            item["semantic_status"] = (
+                item["review_status"]
+                if item["review_status"] in {"complete", "partial", "pending_chatgpt_review"}
+                else "pending_chatgpt_review"
+            )
+        if not item["semantic_source"]:
+            item["semantic_source"] = (
+                "template_only"
+                if item["semantic_status"] == "pending_chatgpt_review"
+                else "chatgpt_review"
+            )
         output.append(item)
     with SEMANTIC_INDEX.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=SEMANTIC_FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=SEMANTIC_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(output)
     return output
@@ -334,12 +351,13 @@ def validate(rows: list[dict[str, str]], semantic_rows: list[dict[str, str]]) ->
 
 
 def write_report(rows: list[dict[str, str]], semantic_rows: list[dict[str, str]], errors: list[str]) -> None:
-    status = Counter(row["review_status"] for row in semantic_rows)
+    status = Counter(row["semantic_status"] for row in semantic_rows)
     groups = Counter((row["year"], row["question"]) for row in semantic_rows)
     lines = [
         "# 第二阶段语义整理报告", "",
-        f"- 论文总数：{len(rows)}", f"- 已完成语义审阅：{status.get('reviewed', 0)}",
-        f"- 待 ChatGPT 审阅：{status.get('pending_chatgpt_review', 0)}", "- 已识别题型/算法/验证方式：0（本轮未进行语义猜测）",
+        f"- 论文总数：{len(rows)}", f"- 完成语义审阅：{status.get('complete', 0)}",
+        f"- 部分语义审阅：{status.get('partial', 0)}",
+        f"- 待 ChatGPT 审阅：{status.get('pending_chatgpt_review', 0)}", "- 自动语义推断：未进行。",
         "- 索引状态：经验卡、语义索引、方法/题型/知识点/验证/解释/写作/比赛流程/证据文档已生成。", "- 通用方法论已审阅整理；这不等于完成单篇论文语义审阅。", "",
         "## 年份与题号待审阅数", "", "| 年份 | A | B | C | D | E | F | 合计 |", "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
@@ -367,10 +385,13 @@ def main() -> int:
         path = STRATEGY / filename
         if not path.exists():
             write_utf8(path, content)
+    question_readme = QUESTION_NOTES / "README.md"
+    if not question_readme.exists():
+        write_utf8(question_readme, QUESTION_NOTES_README)
     semantic_rows = write_semantic_index(rows, existing)
     errors = validate(rows, semantic_rows)
     write_report(rows, semantic_rows, errors)
-    print(f"cards_created={created} cards_total={len(rows)} pending={Counter(row['review_status'] for row in semantic_rows)['pending_chatgpt_review']} validation_errors={len(errors)}")
+    print(f"cards_created={created} cards_total={len(rows)} pending={Counter(row['semantic_status'] for row in semantic_rows)['pending_chatgpt_review']} validation_errors={len(errors)}")
     return 1 if errors else 0
 
 
