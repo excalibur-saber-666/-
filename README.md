@@ -20,6 +20,19 @@
 - `scripts/organize_and_update.py`：可重复运行的整理、转换与索引更新脚本。
 - `reports/conversion_report.md`：本次转换与验证报告。
 
+## 第二阶段：方法论与写作经验库
+
+- `paper_notes/`：逐篇可追溯的经验卡；当前全部等待基于原文的语义审阅。
+- `strategy/`：题型、方法、知识点、验证、写作和证据案例的索引框架。
+- `metadata/semantic_index.csv`：与论文 manifest 一一对应的语义审阅队列。
+- `reports/semantic_summary_report.md`：第二阶段完成度与待确认项。
+
+初始化或补齐缺失经验卡：
+
+```powershell
+& 'D:\CodexTools\MarkItDown\.venv\Scripts\python.exe' .\scripts\initialize_semantic_stage.py
+```
+
 ## 新增或更新 PDF
 
 1. 将文件置于 `papers/{year}/{question}/`。
