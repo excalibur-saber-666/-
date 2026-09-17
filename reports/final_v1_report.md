@@ -27,6 +27,8 @@ manifest 中 145 个 ID 唯一，原始 PDF 与论文 Markdown 路径均存在�
 | 文件 | 状态与作用 |
 |---|---|
 | MASTER_MODELING_GUIDE | 完成；完整保留用户提供总结的 46 节，并增加证据边界 |
+| PROBLEM_METHOD_QUICK_REFERENCE | 完成；20 类题型的现场速查、升级门槛、红线与填写模板 |
+| ANNUAL_QUESTION_EVIDENCE_MATRIX | 完成；2022—2025 每年 A—F 各核对 1 篇，共 24 篇 |
 | MODELING_PLAYBOOK | 完成；审题、拆题、抽象、baseline、模型选择与证据链 |
 | PROBLEM_PATTERN_INDEX | 完成；20 类题型均含识别、输入、输出、检查、baseline、方法、验证、误区 |
 | METHOD_INDEX | 完成；常见统计、机器学习、优化、图、信号与不确定性方法的适用边界 |
@@ -58,7 +60,7 @@ semantic_index 保留原稳定 paper_id，并新增 semantic_status、semantic_s
 
 最终验证结果：
 
-    manifest=145 pdf=145 paper_markdown=145 paper_notes=145 complete=0 partial=0 pending=145 markdown_utf8=319 errors=0
+    manifest=145 pdf=145 paper_markdown=145 paper_notes=145 complete=0 partial=0 pending=145 markdown_utf8=321 errors=0
     PASS: V1 structure, IDs, paths, links, statuses, counts, and UTF-8 checks passed.
 
 初始化和自动索引脚本均连续运行两次；第二次没有创建新经验卡，自动区输出保持一致。
@@ -67,6 +69,7 @@ semantic_index 保留原稳定 paper_id，并新增 semantic_status、semantic_s
 
 - 按年份、赛题和全文检索 145 篇论文；
 - 从题型、方法或知识领域定位候选建模路线；
+- 用 24 篇跨年赛题样本核对速查结论，并沿 source_md 追溯证据；
 - 使用 baseline、验证、鲁棒性、泛化性和可解释性框架设计证据链；
 - 按十阶段工作流组织比赛协作与交稿检查；
 - 查阅 4 个有 source_md 的可追溯建模/写作案例；

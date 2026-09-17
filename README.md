@@ -13,10 +13,10 @@
 | 合计 | 145 |
 
 - [历年论文索引](knowledge_base/INDEX.md) · [赛题目录](knowledge_base/QUESTION_CATALOG.md)
-- [完整方法论](strategy/MASTER_MODELING_GUIDE.md) · [建模手册](strategy/MODELING_PLAYBOOK.md)
+- [完整方法论](strategy/MASTER_MODELING_GUIDE.md) · [题型方法速查](strategy/PROBLEM_METHOD_QUICK_REFERENCE.md) · [建模手册](strategy/MODELING_PLAYBOOK.md)
 - [题型索引](strategy/PROBLEM_PATTERN_INDEX.md) · [方法索引](strategy/METHOD_INDEX.md) · [知识领域入口](strategy/KNOWLEDGE_INDEX.md)
 - [验证指南](strategy/VALIDATION_GUIDE.md) · [可解释性指南](strategy/EXPLAINABILITY_GUIDE.md) · [写作指南](strategy/WRITING_GUIDE.md)
-- [已核对案例](strategy/EVIDENCE_CASES.md) · [比赛十阶段工作流](strategy/COMPETITION_WORKFLOW.md)
+- [24 个赛题单元证据矩阵](strategy/ANNUAL_QUESTION_EVIDENCE_MATRIX.md) · [已核对案例](strategy/EVIDENCE_CASES.md) · [比赛十阶段工作流](strategy/COMPETITION_WORKFLOW.md)
 - [同题横向比较卡](question_notes/README.md) · [V1 最终报告](reports/final_v1_report.md)
 
 ## 比赛推荐使用流程
